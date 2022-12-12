@@ -3,6 +3,12 @@ const { Blog } = require('../models')
 
 const router = express.Router()
 
+const blogFinder = async (req, res, next) => {
+  const blog = await Blog.findByPk(req.params.id)
+  req.blog = blog
+  next()
+}
+
 router.get('/', async (req, res) => {
   try {
     const blogs = await Blog.findAll()
@@ -22,7 +28,7 @@ router.post('/', async (req, res) => {
   }
 })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', blogFinder, async (req, res) => {
   try {
     const blog = await Blog.findByPk(req.params.id)
     if (!blog) {
