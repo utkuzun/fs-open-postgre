@@ -30,6 +30,16 @@ router.get('/:id', blogFinder, (req, res) => {
   return res.json({ blog: blog.toJSON() })
 })
 
+router.put('/:id', blogFinder, async (req, res) => {
+  const updatedBlog = await Blog.update(req.body, {
+    where: {
+      id: req.blog.id,
+    },
+  })
+
+  return res.status(203).json({ blog: updatedBlog })
+})
+
 router.delete('/:id', blogFinder, async (req, res) => {
   const { blog } = req
 
