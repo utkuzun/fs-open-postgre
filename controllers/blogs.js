@@ -30,7 +30,8 @@ router.post('/', async (req, res) => {
 
 router.delete('/:id', blogFinder, async (req, res) => {
   try {
-    const blog = await Blog.findByPk(req.params.id)
+    const { blog } = req
+
     if (!blog) {
       return res.status(404).send('Blog can not be found!!')
     }
