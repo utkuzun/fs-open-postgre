@@ -1,46 +1,40 @@
 const express = require('express')
+const { CustomApiError } = require('../error/CustomApiError')
 const { Blog } = require('../models')
 
 const router = express.Router()
 
 const blogFinder = async (req, res, next) => {
   const blog = await Blog.findByPk(req.params.id)
+
+  if (!blog) {
+    throw new CustomApiError('Blog cannot be found!!', 404)
+  }
+
   req.blog = blog
   next()
 }
 
 router.get('/', async (req, res) => {
-  try {
-    const blogs = await Blog.findAll()
-
-    return res.status(200).json(blogs.map((item) => item.toJSON()))
-  } catch (error) {
-    console.log(error)
-  }
+  const blogs = await Blog.findAll()
+  return res.status(200).json(blogs.map((item) => item.toJSON()))
 })
 
 router.post('/', async (req, res) => {
-  try {
-    const newBlog = await Blog.create(req.body)
-    return res.status(201).json(newBlog.toJSON())
-  } catch (error) {
-    console.log(error)
-  }
+  const newBlog = await Blog.create(req.body)
+  return res.status(201).json(newBlog.toJSON())
+})
+
+router.get('/:id', blogFinder, (req, res) => {
+  const { blog } = req
+  return res.json({ blog: blog.toJSON() })
 })
 
 router.delete('/:id', blogFinder, async (req, res) => {
-  try {
-    const { blog } = req
+  const { blog } = req
 
-    if (!blog) {
-      return res.status(404).send('Blog can not be found!!')
-    }
-
-    await blog.destroy()
-    return res.status(204).send()
-  } catch (error) {
-    console.log(error)
-  }
+  await blog.destroy()
+  return res.status(204).send()
 })
 
 module.exports = router
