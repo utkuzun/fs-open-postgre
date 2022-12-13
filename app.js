@@ -11,6 +11,7 @@ const { connectDB } = require('./utils/db')
 
 const blogRouter = require('./controllers/blogs')
 const userRouter = require('./controllers/users')
+const authRouter = require('./controllers/auth')
 
 app.use(express.json())
 
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 
 app.use('/api/blogs', blogRouter)
 app.use('/api/users', userRouter)
+app.use('/auth', authRouter)
 
 app.use(notFound)
 app.use(errorHandler)

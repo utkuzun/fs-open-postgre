@@ -36,17 +36,22 @@ User.init(
         user.password = await bcrypt.hash(user.password, salt)
       },
     },
-    modelMethods: {
+    instanceMethods: {
       verifyPassword: async function (password) {
         return await bcrypt.compare(password, this.password)
       },
     },
-    defaultScope: {
-      attributes: {
-        exclude: ['password'],
-      },
-    },
+    // defaultScope: {
+    //   attributes: {
+    //     exclude: ['password'],
+    //   },
+    // },
   }
 )
+
+User.prototype.verifyPassword = async function (password) {
+  const match = await bcrypt.compare(password, this.password)
+  return match
+}
 
 module.exports = { User }
