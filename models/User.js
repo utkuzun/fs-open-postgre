@@ -41,17 +41,19 @@ User.init(
         return await bcrypt.compare(password, this.password)
       },
     },
-    // defaultScope: {
-    //   attributes: {
-    //     exclude: ['password'],
-    //   },
-    // },
   }
 )
 
 User.prototype.verifyPassword = async function (password) {
   const match = await bcrypt.compare(password, this.password)
   return match
+}
+
+User.prototype.toJSON = function () {
+  var values = Object.assign({}, this.get())
+
+  delete values.password
+  return values
 }
 
 module.exports = { User }

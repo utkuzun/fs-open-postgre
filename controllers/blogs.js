@@ -6,7 +6,12 @@ const { authenticate } = require('../utils/middleware')
 const router = express.Router()
 
 const blogFinder = async (req, res, next) => {
-  const blog = await Blog.findByPk(req.params.id)
+  const blog = await Blog.findByPk(req.params.id, {
+    include: {
+      model: User,
+      attributes: { exclude: ['password'] },
+    },
+  })
 
   if (!blog) {
     throw new CustomApiError('Blog cannot be found!!', 404)
@@ -18,7 +23,11 @@ const blogFinder = async (req, res, next) => {
 
 router.get('/', async (req, res) => {
   const blogs = await Blog.findAll({
-    include: User,
+    include: {
+      model: User,
+      attributes: ['name', 'id'],
+    },
+    attributes: { exclude: ['userId'] },
   })
   return res.status(200).json(blogs.map((item) => item.toJSON()))
 })
