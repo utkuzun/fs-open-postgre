@@ -45,8 +45,13 @@ router.put('/:id', blogFinder, async (req, res) => {
   return res.status(203).json({ blog: updatedBlog })
 })
 
-router.delete('/:id', blogFinder, async (req, res) => {
+router.delete('/:id', authenticate, blogFinder, async (req, res) => {
   const { blog } = req
+  const { userId } = req.user
+
+  if (userId !== blog.userId) {
+    throw new CustomApiError('Not authorized!!', 403)
+  }
 
   await blog.destroy()
   return res.status(204).send()
