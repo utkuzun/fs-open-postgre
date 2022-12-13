@@ -10,6 +10,7 @@ const { PORT } = require('./utils/config')
 const { connectDB } = require('./utils/db')
 
 const blogRouter = require('./controllers/blogs')
+const userRouter = require('./controllers/users')
 
 app.use(express.json())
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/blogs', blogRouter)
+app.use('/api/users', userRouter)
 
 app.use(notFound)
 app.use(errorHandler)

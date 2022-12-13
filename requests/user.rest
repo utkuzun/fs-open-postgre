@@ -1,0 +1,26 @@
+###
+GET http://localhost:3000/api/users
+
+###
+GET http://localhost:3000/api/users/12
+
+###
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+    "author" : "utku",
+    "url" : "utku.com",
+    "title": "utkucuğum"
+}
+###
+PUT http://localhost:3000/api/users/12
+Content-Type: application/json
+
+{
+    "author" : "utkumal2",
+    "likes" : 2
+}
+
+###
+DELETE http://localhost:3000/api/users/11
