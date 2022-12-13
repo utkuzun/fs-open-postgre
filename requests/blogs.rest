@@ -9,6 +9,7 @@ GET http://localhost:3000/api/blogs/12
 ###
 POST http://localhost:3000/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InV0a3VtYWwiLCJpZCI6MSwiaWF0IjoxNjcwOTY1MTU3fQ.bMpAClCXr9UKZ6UjQ3PUZu70aJP9tr2O9w8SWEaFcfE
 
 {
     "author" : "utku",

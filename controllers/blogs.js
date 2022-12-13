@@ -1,6 +1,7 @@
 const express = require('express')
 const { CustomApiError } = require('../error/CustomApiError')
-const { Blog } = require('../models')
+const { Blog, User } = require('../models')
+const { authenticate } = require('../utils/middleware')
 
 const router = express.Router()
 
@@ -16,12 +17,16 @@ const blogFinder = async (req, res, next) => {
 }
 
 router.get('/', async (req, res) => {
-  const blogs = await Blog.findAll()
+  const blogs = await Blog.findAll({
+    include: User,
+  })
   return res.status(200).json(blogs.map((item) => item.toJSON()))
 })
 
-router.post('/', async (req, res) => {
-  const newBlog = await Blog.create(req.body)
+router.post('/', authenticate, async (req, res) => {
+  const { userId } = req.user
+
+  const newBlog = await Blog.create({ ...req.body, userId })
   return res.status(201).json(newBlog.toJSON())
 })
 

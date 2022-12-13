@@ -1,7 +1,7 @@
 const express = require('express')
 const { CustomApiError } = require('../error/CustomApiError')
 
-const { User } = require('../models/User')
+const { User, Blog } = require('../models')
 
 const router = express.Router()
 
@@ -19,7 +19,9 @@ const userFinder = async (req, res, next) => {
 }
 
 router.get('/', async (req, res) => {
-  const users = await User.findAll()
+  const users = await User.findAll({
+    include: Blog,
+  })
   return res.status(200).json(users.map((user) => user.toJSON()))
 })
 
