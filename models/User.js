@@ -15,7 +15,9 @@ User.init(
       allowNull: false,
       unique: true,
       validate: {
-        isEmail: true,
+        isEmail: {
+          msg: 'Username must be in email format!!',
+        },
       },
     },
     password: {
