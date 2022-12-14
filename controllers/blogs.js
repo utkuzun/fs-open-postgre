@@ -1,4 +1,6 @@
 const express = require('express')
+const { Op } = require('sequelize')
+
 const { CustomApiError } = require('../error/CustomApiError')
 const { Blog, User } = require('../models')
 const { authenticate } = require('../utils/middleware')
@@ -22,12 +24,23 @@ const blogFinder = async (req, res, next) => {
 }
 
 router.get('/', async (req, res) => {
+  const where = {}
+
+  const { search } = req.query
+
+  if (search) {
+    where.title = {
+      [Op.iLike]: search,
+    }
+  }
+
   const blogs = await Blog.findAll({
     include: {
       model: User,
       attributes: ['name', 'id'],
     },
     attributes: { exclude: ['userId'] },
+    where,
   })
   return res.status(200).json(blogs.map((item) => item.toJSON()))
 })

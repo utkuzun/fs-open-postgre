@@ -36,11 +36,6 @@ User.init(
         user.password = await bcrypt.hash(user.password, salt)
       },
     },
-    instanceMethods: {
-      verifyPassword: async function (password) {
-        return await bcrypt.compare(password, this.password)
-      },
-    },
   }
 )
 

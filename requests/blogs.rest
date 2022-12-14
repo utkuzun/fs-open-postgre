@@ -1,10 +1,10 @@
 GET http://localhost:3000/
 
 ###
-GET http://localhost:3000/api/blogs
+GET http://localhost:3000/api/blogs?search=react
 
 ###
-GET http://localhost:3000/api/blogs/12
+GET http://localhost:3000/api/blogs/16
 
 ###
 POST http://localhost:3000/api/blogs
@@ -14,7 +14,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InV0a
 {
     "author" : "utkucan post1 relational",
     "url" : "utku.com",
-    "title": "utkucuğum"
+    "title": "react"
 }
 ###
 PUT http://localhost:3000/api/blogs/12
@@ -26,4 +26,6 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/api/blogs/11
+DELETE http://localhost:3000/api/blogs/15
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InV0a3VjYW5AZm9vLmNvbSIsImlkIjoyLCJpYXQiOjE2NzA5NjYyNzN9.wTSD31IonN0jwqBt5uCtSUsyy8PbBpGmr2GSQ1YQ8DY
+
