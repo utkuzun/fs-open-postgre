@@ -5,3 +5,6 @@ Content-Type: application/json
     "username" : "utkucan@foo.com",
     "password" : "supret"
 }
+
+###
+GET http://localhost:3000/authors
