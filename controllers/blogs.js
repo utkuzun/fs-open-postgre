@@ -24,13 +24,17 @@ const blogFinder = async (req, res, next) => {
 }
 
 router.get('/', async (req, res) => {
-  const where = {}
+  let where = {}
 
   const { search } = req.query
 
   if (search) {
-    where.title = {
-      [Op.iLike]: search,
+    where = {
+      ...where,
+      [Op.or]: {
+        title: { [Op.substring]: search.toLowerCase() },
+        author: { [Op.substring]: search.toLowerCase() },
+      },
     }
   }
 
@@ -41,6 +45,7 @@ router.get('/', async (req, res) => {
     },
     attributes: { exclude: ['userId'] },
     where,
+    order: [['likes', 'DESC']],
   })
   return res.status(200).json(blogs.map((item) => item.toJSON()))
 })
