@@ -10,7 +10,7 @@ Content-Type: application/json
 
 {
     "name" : "utku",
-    "username" : "utkucan",
+    "username" : "utkucan@foo.com",
     "password": "supret"
 }
 ###
