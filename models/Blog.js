@@ -1,6 +1,8 @@
 const { DataTypes, Model } = require('sequelize')
 const { sequelize } = require('../utils/db')
 
+// const { CustomApiError } = require('../error/CustomApiError')
+
 class Blog extends Model {}
 
 Blog.init(
@@ -25,6 +27,20 @@ Blog.init(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    // year: {
+    //   type: DataTypes.INTEGER,
+    //   validate: {
+    //     yearValidation(value) {
+    //       const currentYear = new Date().getFullYear()
+    //       if (value < 1991 || value > currentYear) {
+    //         throw new CustomApiError(
+    //           'year must be between 1991 and current year',
+    //           401
+    //         )
+    //       }
+    //     },
+    //   },
+    // },
   },
   {
     sequelize,
