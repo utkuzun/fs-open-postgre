@@ -20,10 +20,19 @@ const userFinder = async (req, res, next) => {
 
 router.get('/', async (req, res) => {
   const users = await User.findAll({
-    include: {
-      model: Blog,
-      attributes: ['url', 'id', 'author', 'title'],
-    },
+    include: [
+      {
+        model: Blog,
+        attributes: ['url', 'id', 'author', 'title'],
+      },
+      {
+        model: Blog,
+        as: 'readings',
+        through: {
+          attributes: ['id', 'read', 'user_id'],
+        },
+      },
+    ],
   })
   return res.status(200).json(users.map((user) => user.toJSON()))
 })
