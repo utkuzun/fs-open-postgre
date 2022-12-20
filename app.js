@@ -24,7 +24,7 @@ app.get('/', (req, res) => {
 app.use('/api/blogs', blogRouter)
 app.use('/api/users', userRouter)
 app.use('/auth', authRouter)
-app.use('/authors', authorsRouter)
+app.use('/api/authors', authorsRouter)
 
 app.use(notFound)
 app.use(errorHandler)
