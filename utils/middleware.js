@@ -73,12 +73,15 @@ const authenticate = async (req, res, next) => {
     include: { model: User, attributes: ['id'] },
   })
 
-  console.log(currentSession.toJSON())
+  if (currentSession.logoutTime) {
+    throw new CustomApiError('Your session is expired!!', 403)
+  }
 
   req.user = {
     username,
     userId,
     userToken: token.substring(7),
+    sessionId: currentSession.id,
   }
 
   next()

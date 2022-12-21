@@ -5,6 +5,7 @@ const { JWT_SECRET } = require('../utils/config')
 
 const { CustomApiError } = require('../error/CustomApiError')
 const { User } = require('../models/User')
+// eslint-disable-next-line no-unused-vars
 const { Session, BlockToken } = require('../models')
 const { authenticate } = require('../utils/middleware')
 
@@ -55,11 +56,11 @@ router.post('/login', async (req, res) => {
 })
 
 router.delete('/logout', authenticate, async (req, res) => {
-  const { userToken: token } = req.user
-  console.log(token)
+  const { userToken: token, sessionId } = req.user
+  await BlockToken.create({ token })
+  await Session.update({ logoutTime: Date.now() }, { where: { id: sessionId } })
 
-  const tokenBlocked = await BlockToken.create({ token })
-  res.json({ token: tokenBlocked.toJSON() })
+  res.status(204).end()
 })
 
 module.exports = router
