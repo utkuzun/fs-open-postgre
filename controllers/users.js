@@ -49,13 +49,17 @@ router.get('/:id', async (req, res) => {
         as: 'readings',
         attributes: ['url', 'id', 'author', 'title', 'year', 'likes'],
         through: {
-          attributes: [],
+          attributes: ['id', 'read'],
         },
       },
     ],
   })
 
-  res.status(200).json(user.toJSON())
+  if (!user) {
+    throw new CustomApiError('User not found!!', 404)
+  }
+
+  return res.status(200).json(user.toJSON())
 })
 
 router.post('/', async (req, res) => {
