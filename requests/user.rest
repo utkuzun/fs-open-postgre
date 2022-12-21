@@ -2,7 +2,7 @@
 GET http://localhost:3000/api/users
 
 ###
-GET http://localhost:3000/api/users/1
+GET http://localhost:3000/api/users/1?read=false
 
 ###
 POST http://localhost:3000/api/users
