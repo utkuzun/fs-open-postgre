@@ -2,7 +2,7 @@ const { CustomApiError } = require('../error/CustomApiError')
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('./config')
 
-const { User } = require('../models')
+const { User, Blog } = require('../models')
 
 const notFound = (req, res) => {
   return res.status(404).json({ error: `${req.url} not found` })
@@ -18,6 +18,22 @@ const errorHandler = (err, req, res, _next) => {
   return res
     .status(customError.statusCode)
     .json({ message: customError.message })
+}
+
+const blogFinder = async (req, res, next) => {
+  const blog = await Blog.findByPk(req.params.id, {
+    include: {
+      model: User,
+      attributes: { exclude: ['password'] },
+    },
+  })
+
+  if (!blog) {
+    throw new CustomApiError('Blog cannot be found!!', 404)
+  }
+
+  req.blog = blog
+  next()
 }
 
 const authenticate = async (req, res, next) => {
@@ -50,4 +66,4 @@ const authenticate = async (req, res, next) => {
   next()
 }
 
-module.exports = { notFound, errorHandler, authenticate }
+module.exports = { notFound, errorHandler, authenticate, blogFinder }

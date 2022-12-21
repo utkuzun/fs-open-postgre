@@ -37,6 +37,27 @@ router.get('/', async (req, res) => {
   return res.status(200).json(users.map((user) => user.toJSON()))
 })
 
+router.get('/:id', async (req, res) => {
+  const user = await User.findByPk(req.params.id, {
+    include: [
+      {
+        model: Blog,
+        attributes: ['url', 'id', 'author', 'title', 'year', 'likes'],
+      },
+      {
+        model: Blog,
+        as: 'readings',
+        attributes: ['url', 'id', 'author', 'title', 'year', 'likes'],
+        through: {
+          attributes: [],
+        },
+      },
+    ],
+  })
+
+  res.status(200).json(user.toJSON())
+})
+
 router.post('/', async (req, res) => {
   const newUser = await User.create(req.body)
   return res.status(201).json(newUser.toJSON())

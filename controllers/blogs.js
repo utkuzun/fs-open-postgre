@@ -3,25 +3,9 @@ const { Op } = require('sequelize')
 
 const { CustomApiError } = require('../error/CustomApiError')
 const { Blog, User } = require('../models')
-const { authenticate } = require('../utils/middleware')
+const { authenticate, blogFinder } = require('../utils/middleware')
 
 const router = express.Router()
-
-const blogFinder = async (req, res, next) => {
-  const blog = await Blog.findByPk(req.params.id, {
-    include: {
-      model: User,
-      attributes: { exclude: ['password'] },
-    },
-  })
-
-  if (!blog) {
-    throw new CustomApiError('Blog cannot be found!!', 404)
-  }
-
-  req.blog = blog
-  next()
-}
 
 router.get('/', async (req, res) => {
   let where = {}
