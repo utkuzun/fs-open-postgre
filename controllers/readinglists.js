@@ -16,4 +16,12 @@ router.post('/', authenticate, async (req, res) => {
   return res.status(201).json(readinglist.toJSON())
 })
 
+router.put('/:id', async (req, res) => {
+  await UserNotes.update(req.body, {
+    where: { id: req.params.id },
+  })
+
+  res.status(200).end()
+})
+
 module.exports = router
