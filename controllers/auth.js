@@ -31,6 +31,10 @@ router.post('/login', async (req, res) => {
     throw new CustomApiError('Invalid credentials!!', 404)
   }
 
+  if (user.disabled) {
+    throw new CustomApiError('This user is disabled!!', 403)
+  }
+
   const userForToken = {
     username: user.username,
     id: user.id,

@@ -2,23 +2,23 @@
 GET http://localhost:3000/api/users
 
 ###
-GET http://localhost:3000/api/users/1?read=false
+GET http://localhost:3000/api/users/2
 
 ###
 POST http://localhost:3000/api/users
 Content-Type: application/json
 
 {
-    "name" : "utku",
-    "username" : "utkucan@foo.com",
+    "name" : "seher",
+    "username" : "sehercan@foo.com",
     "password": "supret"
 }
 ###
-PUT http://localhost:3000/api/users/utkumal
+PUT http://localhost:3000/api/users/sehercan@foo.com
 Content-Type: application/json
 
 {
-    "username" : "utkumal"
+    "disabled" : false
 }
 
 ###
