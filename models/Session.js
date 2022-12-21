@@ -1,4 +1,4 @@
-const { Model, DataTypes, fn } = require('sequelize')
+const { Model, DataTypes, fn, UUIDV4 } = require('sequelize')
 const { sequelize } = require('../utils/db')
 
 class Session extends Model {}
@@ -11,8 +11,8 @@ Session.init(
       autoIncrement: true,
     },
     sessionId: {
-      type: DataTypes.STRING,
-      unique: true,
+      type: DataTypes.UUID,
+      defaultValue: UUIDV4,
     },
     userId: {
       type: DataTypes.INTEGER,

@@ -5,6 +5,8 @@ const { JWT_SECRET } = require('../utils/config')
 
 const { CustomApiError } = require('../error/CustomApiError')
 const { User } = require('../models/User')
+const { Session, BlockToken } = require('../models')
+const { authenticate } = require('../utils/middleware')
 
 const router = express.Router()
 
@@ -35,14 +37,29 @@ router.post('/login', async (req, res) => {
     throw new CustomApiError('This user is disabled!!', 403)
   }
 
+  const userSession = await Session.create({ userId: user.id })
+
   const userForToken = {
     username: user.username,
     id: user.id,
+    sessionId: userSession.id,
   }
 
   const token = jwt.sign(userForToken, JWT_SECRET)
 
-  res.status(200).send({ token, username: user.username, name: user.name })
+  res.status(200).send({
+    token,
+    username: user.username,
+    name: user.name,
+  })
+})
+
+router.delete('/logout', authenticate, async (req, res) => {
+  const { userToken: token } = req.user
+  console.log(token)
+
+  const tokenBlocked = await BlockToken.create({ token })
+  res.json({ token: tokenBlocked.toJSON() })
 })
 
 module.exports = router

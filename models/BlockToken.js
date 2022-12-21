@@ -19,7 +19,7 @@ BlockToken.init(
     sequelize,
     underscored: true,
     timestamps: false,
-    modelName: 'user',
+    tableName: 'block_token',
   }
 )
 

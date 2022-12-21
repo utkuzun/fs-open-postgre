@@ -2,7 +2,7 @@ const { CustomApiError } = require('../error/CustomApiError')
 const jwt = require('jsonwebtoken')
 const { JWT_SECRET } = require('./config')
 
-const { User, Blog } = require('../models')
+const { User, Blog, Session, BlockToken } = require('../models')
 
 const notFound = (req, res) => {
   return res.status(404).json({ error: `${req.url} not found` })
@@ -43,13 +43,21 @@ const authenticate = async (req, res, next) => {
     throw new CustomApiError('Invalid token!!', 403)
   }
 
+  const isBlocked = await BlockToken.findOne({
+    where: { token: token.substring(7) },
+  })
+
+  if (isBlocked) {
+    throw new CustomApiError('This token is revoked!!', 403)
+  }
+
   const userDecoded = jwt.verify(token.substring(7), JWT_SECRET)
 
   if (!userDecoded) {
     throw new CustomApiError('Invalid token!!', 403)
   }
 
-  const { username, id: userId } = userDecoded
+  const { username, id: userId, sessionId } = userDecoded
 
   const user = await User.findOne({
     where: {
@@ -61,7 +69,17 @@ const authenticate = async (req, res, next) => {
     throw new CustomApiError('Invalid username!!', 403)
   }
 
-  req.user = { username, userId }
+  const currentSession = await Session.findByPk(sessionId, {
+    include: { model: User, attributes: ['id'] },
+  })
+
+  console.log(currentSession.toJSON())
+
+  req.user = {
+    username,
+    userId,
+    userToken: token.substring(7),
+  }
 
   next()
 }

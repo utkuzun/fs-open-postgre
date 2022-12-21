@@ -8,3 +8,8 @@ Content-Type: application/json
 
 ###
 GET http://localhost:3000/api/authors
+
+###
+DELETE http://localhost:3000/auth/logout
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InNlaGVyY2FuQGZvby5jb20iLCJpZCI6Miwic2Vzc2lvbklkIjo0LCJpYXQiOjE2NzE2NjAxMzl9.3idDHAX0UJZk8Ks9UpD5PWe0N2bSCxQFfPPtzdK8ekA

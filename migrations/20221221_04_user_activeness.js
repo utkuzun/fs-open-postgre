@@ -1,4 +1,4 @@
-const { DataTypes, fn } = require('sequelize')
+const { DataTypes, fn, UUIDV4 } = require('sequelize')
 
 module.exports = {
   up: async ({ context: queryInterface }) => {
@@ -25,22 +25,22 @@ module.exports = {
         primaryKey: true,
         autoIncrement: true,
       },
-      sessionId: {
-        type: DataTypes.STRING,
-        unique: true,
+      session_id: {
+        type: DataTypes.UUID,
+        defaultValue: UUIDV4,
       },
-      userId: {
+      user_id: {
         type: DataTypes.INTEGER,
         references: {
           model: 'users',
           key: 'id',
         },
       },
-      loginTime: {
+      login_time: {
         type: DataTypes.DATE,
         defaultValue: fn('NOW'),
       },
-      logoutTime: {
+      logout_time: {
         type: DataTypes.DATE,
       },
     })
@@ -49,6 +49,6 @@ module.exports = {
   down: async ({ context: queryInterface }) => {
     await queryInterface.removeColumn('users', 'disabled')
     await queryInterface.dropTable('block_token')
-    await queryInterface.dropTable('session')
+    await queryInterface.dropTable('sessions')
   },
 }

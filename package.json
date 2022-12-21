@@ -17,7 +17,8 @@
     "jsonwebtoken": "^8.5.1",
     "pg": "^8.8.0",
     "sequelize": "^6.26.0",
-    "umzug": "^3.2.1"
+    "umzug": "^3.2.1",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "eslint": "^8.28.0",
